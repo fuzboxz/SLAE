@@ -11,6 +11,11 @@ Student ID: PA-7449
 ## Assignment 1: Create Shell_Bind_TCP shellcode
 
 NASM: [bindtcp.nasm](https://github.com/fuzboxz/SLAE/tree/master/assignments/bindtcp/bindtcp.nasm)
+
+Shellcode generator: [bindtcp.py](https://github.com/fuzboxz/SLAE/tree/master/assignments/bindtcp/bindtcp.py)
+
+Shellcode tester: [bindtcp.c](https://github.com/fuzboxz/SLAE/tree/master/assignments/bindtcp/bindtcp.c)
+
 Binary: [bindtcp](https://github.com/fuzboxz/SLAE/tree/master/assignments/bindtcp/bindtcp)
 
 ## Assignment 2: Reverse Shell TCP shellcode
