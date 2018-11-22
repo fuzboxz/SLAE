@@ -1,4 +1,4 @@
-# SLAE - fuzboxz
+# x86 Assembly Language and Shellcoding on Linux - SLAE
 
 Source code, tools and binaries for Pentester Academy *x86 Assembly Language and Shellcoding on Linux* course.
 
@@ -9,7 +9,9 @@ Compiled on Ubuntu Mate 18.04 64-bit.
 Student ID: PA-7449 
 
 ## Assignment 1: Create Shell_Bind_TCP shellcode
-TBD 
+
+NASM: [bindtcp.nasm](https://github.com/fuzboxz/SLAE/tree/master/assignments/bindtcp/bindtcp.nasm)
+Binary: [bindtcp](https://github.com/fuzboxz/SLAE/tree/master/assignments/bindtcp/bindtcp)
 
 ## Assignment 2: Reverse Shell TCP shellcode
 TBD
