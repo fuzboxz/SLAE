@@ -16,6 +16,8 @@ Shellcode generator: [bindtcp.py](https://github.com/fuzboxz/SLAE/tree/master/as
 
 Shellcode tester: [bindtcp.c](https://github.com/fuzboxz/SLAE/tree/master/assignments/bindtcp/bindtcp.c)
 
+Call graph: [shell.png](https://github.com/fuzboxz/SLAE/tree/master/assignments/bindtcp/shell.png)
+
 Binary: [bindtcp](https://github.com/fuzboxz/SLAE/tree/master/assignments/bindtcp/bindtcp)
 
 ## Assignment 2: Reverse Shell TCP shellcode

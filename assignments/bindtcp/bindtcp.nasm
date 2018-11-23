@@ -52,6 +52,7 @@ bind:
 
     ; SYS_BIND 0x2
     pop ebx  
+
     pop edi
 
     ;struct sockaddr_in {
