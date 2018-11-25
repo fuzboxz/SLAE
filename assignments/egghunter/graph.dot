@@ -1,0 +1,19 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x08048060" -> "0x08048062" [color="#005f87"];
+	"0x08048060" [URL="entry0/0x08048060", fillcolor="white",color="#e03030", fontname="Courier",label=";-- section..text:\l;-- _start:\l;-- eip:\l(fcn) entry0 35\l  entry0 ();\l0x08048060      xor  edx, edx      ; [01] -r-x section size 35 named .text\l"]
+	"0x08048062" -> "0x08048067" [color="#005f87"];
+	"0x08048062" [URL="entry0/0x08048062", fillcolor="white",color="#e03030", fontname="Courier",label=";-- incr_page:\l0x08048062      or   dx, 0xfff\l"]
+	"0x08048067" -> "0x08048062" [color="#5f8700"];
+	"0x08048067" -> "0x08048074" [color="#e03030"];
+	"0x08048067" [URL="entry0/0x08048067", fillcolor="palegreen",color="#e03030", fontname="Courier",label=";-- incr_addr:\l0x08048067      inc  edx\l0x08048068      lea  ebx, [edx + 4] ; 4\l0x0804806b      push 0x21          ; '!' ; 33\l0x0804806d      pop  eax\l0x0804806e      int  0x80\l0x08048070      cmp  al, 0xf2      ; 242\l0x08048072      je   loc.incr_page\l"]
+	"0x08048074" -> "0x08048067" [color="#5f8700"];
+	"0x08048074" -> "0x0804807e" [color="#e03030"];
+	"0x08048074" [URL="entry0/0x08048074", fillcolor="white",color="#e03030", fontname="Courier",label="0x08048074      mov  eax, 0x74303077 ; 'w00t'\l0x08048079      mov  edi, edx\l0x0804807b      scasd eax, dword es:[edi]\l0x0804807c      jne  loc.incr_addr\l"]
+	"0x0804807e" -> "0x08048067" [color="#5f8700"];
+	"0x0804807e" -> "0x08048081" [color="#e03030"];
+	"0x0804807e" [URL="entry0/0x0804807e", fillcolor="white",color="#005f87", fontname="Courier",label="0x0804807e      scasd eax, dword es:[edi]\l0x0804807f      jne  loc.incr_addr\l"]
+	"0x08048081" [URL="entry0/0x08048081", fillcolor="white",color="#005f87", fontname="Courier",label="0x08048081      jmp  edi\l"]
+}
