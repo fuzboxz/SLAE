@@ -33,7 +33,14 @@ Call graph: [shell.png](https://github.com/fuzboxz/SLAE/tree/master/assignments/
 Binary: [reversetcp](https://github.com/fuzboxz/SLAE/tree/master/assignments/reversetcp/reversetcp)
 
 ## Assignment 3: Create egghunter demo with configurable second stage
-TBD
+
+NASM: [egghunter.nasm](https://github.com/fuzboxz/SLAE/tree/master/assignments/egghunter/egghunter.nasm)
+
+Shellcode tester: [egghunter.c](https://github.com/fuzboxz/SLAE/tree/master/assignments/egghunter/egghunter.c)
+
+Call graph: [shell.png](https://github.com/fuzboxz/SLAE/tree/master/assignments/egghunter/shell.png)
+
+Binary: [egghunter](https://github.com/fuzboxz/SLAE/tree/master/assignments/egghunter/egghunter)
 
 ## Assignment 4: Create custom encoding with execve stack shellcode
 TBD
