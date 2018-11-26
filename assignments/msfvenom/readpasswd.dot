@@ -1,0 +1,18 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x00000002" -> "0x000000a4" [color="#5f8700"];
+	"0x00000002" -> "0x00000041" [color="#e03030"];
+	"0x00000002" [URL="fcn.00000002/0x00000002", fillcolor="palegreen",color="#e03030", fontname="Courier",label="(fcn) fcn.00000002 72\l  fcn.00000002 ();\l0x00000002      mov eax, 5         ; sys_open\l0x00000007      pop ebx            ; address of \"/etc/passwd\"\l0x00000008      xor ecx, ecx       ; null out ECX\l0x0000000a      int 0x80           ; sys_open - returns file descriptor for file\l0x0000000c      mov ebx, eax       ; move file descriptor into ebx\l0x0000000e      mov eax, 3         ; sys_read\l0x00000013      mov edi, esp       ; moves stack pointer into edi\l0x00000015      mov ecx, edi       ; moves stack pointer into ecx\l0x00000017      mov edx, 0x1000    ; size_t count: 4096 bytes max\l0x0000001c      int 0x80           ; sys_read - attempts to read 4096 bytes onto the stack and returns the number of bytes read\l0x0000001e      mov edx, eax       ; number of read bytes => size_t count\l0x00000020      mov eax, 4         ; sys_write\l0x00000025      mov ebx, 1         ; 0x1 stdout\l0x0000002a      int 0x80           ; sys_write - write EDX number of bytes from the stack to stdout\l0x0000002c      mov eax, 1         ; sys_exit\l0x00000031      mov ebx, 0         ; 0x0 error code\l0x00000036      int 0x80           ; sys_exit\l0x00000038      call 2             ; call part of jmp-call-pop\l0x0000003d      das                ; /etc/passwd\l0x0000003e      je 0xa4\l"]
+	"0x00000041" -> "0x000000a5" [color="#5f8700"];
+	"0x00000041" -> "0x00000044" [color="#e03030"];
+	"0x00000041" [URL="fcn.00000002/0x00000041", fillcolor="white",color="#005f87", fontname="Courier",label="0x00000041      das\l0x00000042      jo 0xa5\l"]
+	"0x00000044" -> "0x000000b9" [color="#5f8700"];
+	"0x00000044" -> "0x00000046" [color="#e03030"];
+	"0x00000044" [URL="fcn.00000002/0x00000044", fillcolor="white",color="#005f87", fontname="Courier",label="0x00000044      jae 0xb9\l"]
+	"0x00000046" -> "0x000000ac" [color="#5f8700"];
+	"0x00000046" -> "0x00000048" [color="#e03030"];
+	"0x00000046" [URL="fcn.00000002/0x00000046", fillcolor="white",color="#005f87", fontname="Courier",label="0x00000046      ja 0xac\l"]
+	"0x00000048" [URL="fcn.00000002/0x00000048", fillcolor="white",color="#005f87", fontname="Courier",label="0x00000048      add bh, bh\l"]
+}

