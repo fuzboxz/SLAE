@@ -46,7 +46,14 @@ Binary: [egghunter](https://github.com/fuzboxz/SLAE/tree/master/assignments/eggh
 TBD
 
 ## Assignment 5: Analyze at least 3 shellcode from msfpayload linux/x86
-TBD
+
+Notes: [notes.txt](https://github.com/fuzboxz/SLAE/tree/master/assignments/msfvenom/notes.txt)
+
+chmod graph: [chmod.png](https://github.com/fuzboxz/SLAE/tree/master/assignments/msfvenom/chmod.png)
+
+readpasswd graph: [readpasswd.png](https://github.com/fuzboxz/SLAE/tree/master/assignments/msfvenom/readpasswd.png)
+
+revshell graph: [revshell.png](https://github.com/fuzboxz/SLAE/tree/master/assignments/msfvenom/revshell.png)
 
 ## Assignment 6: Create polymorphic version for 3 shellcodes from Shell-Storm (not larger than 150%)
 TBD
