@@ -56,7 +56,9 @@ readpasswd graph: [readpasswd.png](https://github.com/fuzboxz/SLAE/tree/master/a
 revshell graph: [revshell.png](https://github.com/fuzboxz/SLAE/tree/master/assignments/msfvenom/revshell.png)
 
 ## Assignment 6: Create polymorphic version for 3 shellcodes from Shell-Storm (not larger than 150%)
-TBD
+
+Polymorphic shellcode and C source [polymorph](https://github.com/fuzboxz/SLAE/tree/master/assignments/polymorphic) 
 
 ## Assignment 7: Create custom crypter for shellcode in any language
-TBD
+
+Source: [crypter.py](https://github.com/fuzboxz/SLAE/blob/master/assignments/crypter/crypter.py)
