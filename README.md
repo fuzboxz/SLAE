@@ -43,7 +43,13 @@ Call graph: [shell.png](https://github.com/fuzboxz/SLAE/tree/master/assignments/
 Binary: [egghunter](https://github.com/fuzboxz/SLAE/tree/master/assignments/egghunter/egghunter)
 
 ## Assignment 4: Create custom encoding with execve stack shellcode
-TBD
+
+NASM: [decode.nasm](https://github.com/fuzboxz/SLAE/tree/master/assignments/encoder/decode.nasm)
+
+Encoder: [encode.py](https://github.com/fuzboxz/SLAE/tree/master/assignments/encoder/encode.py)
+
+Binary: [decode_shellcode (ELF)](https://github.com/fuzboxz/SLAE/tree/master/assignments/encoder/decode_shellcode)
+
 
 ## Assignment 5: Analyze at least 3 shellcode from msfpayload linux/x86
 
